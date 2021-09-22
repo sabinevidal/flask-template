@@ -1,0 +1,10 @@
+{
+  "name": "flask-boilerplate",
+  "packageManager": "yarn@3.0.2",
+  "dependencies": {
+    "@fullhuman/postcss-purgecss": "^4.0.3",
+    "autoprefixer": "latest",
+    "postcss": "latest",
+    "tailwindcss": "^2.2.15"
+  }
+}
