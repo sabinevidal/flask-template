@@ -6,7 +6,7 @@ def compile_static_assets(assets):
     """Create stylesheet bundles."""
     assets.auto_build = True
     assets.debug = False
-    css = Bundle('src/main.css',
+    css = Bundle('src/style.css',
                 filters='postcss',
                 output='dist/main.css')
     # common_style_bundle = Bundle(

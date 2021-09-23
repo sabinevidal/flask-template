@@ -1,5 +1,5 @@
 import sys
-from . import db
+from main.__init__ import db
 from flask import (
     Flask, render_template,
     request, redirect, url_for,
@@ -11,8 +11,8 @@ from datetime import datetime as dt
 from flask import current_app as app
 from flask_sqlalchemy import SQLAlchemy
 
-from .models import Example
-from .forms import ExampleForm
+from main.models import Example
+from main.forms import ExampleForm
 
 # Blueprint Configuration
 example_bp = Blueprint(
@@ -23,7 +23,7 @@ example_bp = Blueprint(
 #  ----------------------------------------------------------------
 #  Show Examples and example
 
-@example_bp.route('/examples', method=['GET'])
+@example_bp.route('/examples', methods=['GET'])
 def examples():
     title = "Examples"
     description = "Let's begin..."
@@ -31,7 +31,7 @@ def examples():
     return render_template('main/index.html', examples=examples,
                             title=title, description=description)
 
-@example_bp.route('/examples/<int:example_id', method=['GET'])
+@example_bp.route('/examples/<int:example_id>', methods=['GET'])
 def show_example(example_id):
     example = Example.query.filter_by(id=example_id).first()
     title = "Example " + example.name
@@ -80,7 +80,7 @@ def example_create():
 #  ----------------------------------------------------------------
 #  Edit example
 
-@example_bp.route('/examples/<int:example_id/edit', method=['GET', 'POST'])
+@example_bp.route('/examples/<int:example_id>/edit', methods=['GET', 'POST'])
 def example_edit(example_id):
     title = "Edit Example"
     description = "Let's begin..."
@@ -124,7 +124,7 @@ def example_edit(example_id):
 #  ----------------------------------------------------------------
 #  Delete example
 
-@example_bp.route('/examples/<int:example_id', method=['DELETE'])
+@example_bp.route('/examples/<int:example_id>', methods=['DELETE'])
 def example_delete(example_id):
     example = Example.query.filter(Example.id == example_id).first()
     name = example.name

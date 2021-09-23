@@ -10,15 +10,20 @@
     {%- endassets %}
 </head>
 <body>
+    {% include 'macros/navigation.html' %}
     <div class="container">
         {% block header -%}{%- endblock %}
         {% block body -%}{%- endblock %}
         {% block footer -%}{%- endblock %}
         <hr />
         <ul class="list-inline text-center">
-            <li><a href="#">Footer</a></li>
-            <li><span class="text-muted"><i class="fa fa-clock-o"></i> {{ g.request_time() }}</span></li>
+            <li><a href="#">Something</a></li>
         </ul>
+    </div>
+    <div id="footer">
+        {% block footer %}
+        &copy; Copyright 2021 by <a href="http://domain.invalid/">you</a>.
+        {% endblock %}
     </div>
 </body>
 </html>

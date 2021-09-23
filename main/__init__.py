@@ -7,7 +7,7 @@ db = SQLAlchemy()
 
 def create_app(test_config=None):
     # create and configure the app
-    app = Flask(__name__, instance_relative_config=True)
+    app = Flask(__name__, instance_relative_config=False)
     app.config.from_object("config.Config")
     assets = Environment()
     assets.init_app(app)
@@ -15,15 +15,15 @@ def create_app(test_config=None):
     db.init_app(app)
 
     with app.app_context():
-        from . import routes, models
+        from . import models
         # Import parts of our application
-        from .auth import auth
-        from .example import routes
-        from .home import routes
         from .assets import compile_static_assets
+        # from .auth import auth
+        from .example import example
+        from .home import home
 
         # Register Blueprints
-        app.register_blueprint(auth.auth_bp)
+        # app.register_blueprint(auth.auth_bp)
         app.register_blueprint(example.example_bp)
         app.register_blueprint(home.home_bp)
 

@@ -1,5 +1,5 @@
 import sys
-from . import db
+from main.__init__ import db
 from flask import (
     Flask, render_template,
     request, redirect, url_for,
@@ -22,8 +22,8 @@ def home():
     """Homepage."""
 
     return render_template(
-        'index.html',
-        title='Flask Blueprint Demo',
-        description='Demonstration of Flask blueprints in action.',
+        'home.html',
+        title='Welcome!',
+        description="Let's begin...",
         template='home-template'
     )
