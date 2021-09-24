@@ -10,9 +10,11 @@
 
 </head>
 <body>
-    {% include 'macros/navigation.html' %}
+    <header>
+    {% include 'macros/header.html' %}
+    {% block header -%}{%- endblock %}
+    </header>
     <div class="container mx-auto  px-3 py-1">
-        {% block header -%}{%- endblock %}
         {% block content -%}{%- endblock %}
         {% block footer -%}{%- endblock %}
     </div>

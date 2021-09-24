@@ -29,11 +29,8 @@ def create_app(test_config=None):
 
         # Compile static assets
         # compile_static_assets(assets)  # Execute logic
-
+        # db.drop_all()
         db.create_all()
 
         return app
 
-def init_db():
-    db.drop_all()
-    db.create_all()

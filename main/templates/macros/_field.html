@@ -1,6 +1,6 @@
 {% macro render_field(field) %}
-    <dt class="">{{ field.label }}
-    <dd class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">{{ field(**kwargs)|safe }}
+    {{ field.label(class_="block mt-1 text-gray-700") }}
+    {{ field(class_="mt-1 block w-full rounded-md border-gray-300 shadow focus:border-indigo-300 focus:ring focus:ring-indigo-200/50", **kwargs) |safe }}
     {% if field.errors %}
         <ul class=errors>
         {% for error in field.errors %}
@@ -8,5 +8,4 @@
         {% endfor %}
         </ul>
     {% endif %}
-    </dd>
 {% endmacro %}

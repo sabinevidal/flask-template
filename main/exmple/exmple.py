@@ -51,10 +51,10 @@ def show_exmple(exmple_id):
 @exmple_bp.route('/exmples/form', methods=['GET'])
 def exmple_form():
     title = "Create Exmple"
-    description = "Let's begin..."
+    form_heading = "Enter Information"
     form = ExmpleForm()
-    return render_template('add.html', form=form,
-                            title=title, description=description)
+    return render_template('form.html', form=form,
+                            title=title, form_heading=form_heading)
 
 @exmple_bp.route('/exmples/form', methods=['POST'])
 def exmple_create():
@@ -83,7 +83,7 @@ def exmple_create():
 @exmple_bp.route('/exmples/<int:exmple_id>/edit', methods=['GET', 'POST'])
 def exmple_edit(exmple_id):
     title = "Edit Exmple"
-    description = "Let's begin..."
+    form_heading = "Edit information"
     form = ExmpleForm()
     exmple = Exmple.query.filter_by(id=exmple_id).one_or_none()
 
@@ -101,8 +101,8 @@ def exmple_edit(exmple_id):
         form.name.process_data(exmple['name'])
         form.email.process_data(exmple['email'])
 
-        return render_template('edit.html', form=form, exmple=exmple,
-                                title=title, description=description)
+        return render_template('form.html', form=form, exmple=exmple,
+                                title=title, form_heading=form_heading)
 
     elif request.method == 'POST':
         try:
@@ -119,7 +119,7 @@ def exmple_edit(exmple_id):
         finally:
             db.session.close()
 
-        return redirect(url_for('exmple_bp.show_exmple', exmple_id=exmple_id))
+        return redirect(url_for('exmple_bp.exmples'))
 
 #  ----------------------------------------------------------------
 #  Delete exmple
