@@ -19,12 +19,12 @@ def create_app(test_config=None):
         # Import parts of our application
         from .assets import compile_static_assets
         # from .auth import auth
-        from .example import example
+        from .exmple import exmple
         from .home import home
 
         # Register Blueprints
         # app.register_blueprint(auth.auth_bp)
-        app.register_blueprint(example.example_bp)
+        app.register_blueprint(exmple.exmple_bp)
         app.register_blueprint(home.home_bp)
 
         # Compile static assets

@@ -21,19 +21,19 @@ def compile_static_assets(assets):
     #     output='dist/css/home.css',
     #     extra={'rel': 'stylesheet/less'}
     # )
-    # example_style_bundle = Bundle(
-    #     'example_bp/less/example.less',    # Set static path within blueprint
+    # exmple_style_bundle = Bundle(
+    #     'exmple_bp/less/exmple.less',    # Set static path within blueprint
     #     filters='less,cssmin',
-    #     output='dist/css/example.css',
+    #     output='dist/css/exmple.css',
     #     extra={'rel': 'stylesheet/less'}
     # )
     assets.register('main_css', css)
     # assets.register('common_style_bundle', common_style_bundle)
     # assets.register('home_style_bundle', home_style_bundle)
-    # assets.register('home_style_bundle', example_style_bundle)
+    # assets.register('home_style_bundle', exmple_style_bundle)
     if app.config['FLASK_ENV'] == 'development':
         css.build()
         # common_style_bundle.build()
         # home_style_bundle.build()
-        # example_style_bundle.build()
+        # exmple_style_bundle.build()
     return assets

@@ -1,40 +1,37 @@
-import os
 import sys
-import imghdr
-from . import db
+from main.__init__ import db
 from flask import (
     Flask, render_template,
     request, redirect, url_for,
     abort, flash, jsonify,
-    make_response
+    make_response,
+    Blueprint
 )
 from datetime import datetime as dt
 from flask import current_app as app
 from flask_sqlalchemy import SQLAlchemy
-from werkzeug.utils import secure_filename
 
-from .models import Exmple
-from .forms import ExmpleForm
+from main.models import Exmple
+from main.forms import ExmpleForm
 
-@app.route('/', methods=['GET'])
-def home():
-    title = "Welcome!"
-    description = "Let's begin..."
-    return render_template('app/index.html')
+# Blueprint Configuration
+exmple_bp = Blueprint(
+    'exmple_bp', __name__,
+    template_folder='templates'
+)
 
 #  ----------------------------------------------------------------
 #  Show Exmples and exmple
-#  ----------------------------------------------------------------
 
-@app.route('/exmples', method=['GET'])
+@exmple_bp.route('/exmples', methods=['GET'])
 def exmples():
     title = "Exmples"
     description = "Let's begin..."
     exmples = Exmple.query.all()
-    return render_template('main/index.html', exmples=exmples,
+    return render_template('index.html', exmples=exmples,
                             title=title, description=description)
 
-@app.route('/exmples/<int:exmple_id', method=['GET'])
+@exmple_bp.route('/exmples/<int:exmple_id>', methods=['GET'])
 def show_exmple(exmple_id):
     exmple = Exmple.query.filter_by(id=exmple_id).first()
     title = "Exmple " + exmple.name
@@ -45,20 +42,21 @@ def show_exmple(exmple_id):
         "name": exmple.name,
         "email": exmple.email
     }
-    return render_template('main/single.html', exmple=details,
+    return render_template('single.html', exmple=details,
                             title=title, description=description)
 
-#  Create exmple
 #  ----------------------------------------------------------------
-@app.route('/form', methods=['GET'])
+#  Create exmple
+
+@exmple_bp.route('/exmples/form', methods=['GET'])
 def exmple_form():
     title = "Create Exmple"
     description = "Let's begin..."
     form = ExmpleForm()
-    return render_template('main/form.html', form=form,
+    return render_template('add.html', form=form,
                             title=title, description=description)
 
-@app.route('/form', methods=['POST'])
+@exmple_bp.route('/exmples/form', methods=['POST'])
 def exmple_create():
     form = ExmpleForm()
     name = form.name.data
@@ -77,11 +75,12 @@ def exmple_create():
         print(e)
     finally:
         db.session.close()
-    return redirect('main/index.html')
+    return redirect(url_for('exmple_bp.exmples'))
 
-#  Edit exmple
 #  ----------------------------------------------------------------
-@app.route('/exmples/<int:exmple_id/edit', method=['GET', 'POST'])
+#  Edit exmple
+
+@exmple_bp.route('/exmples/<int:exmple_id>/edit', methods=['GET', 'POST'])
 def exmple_edit(exmple_id):
     title = "Edit Exmple"
     description = "Let's begin..."
@@ -102,7 +101,7 @@ def exmple_edit(exmple_id):
         form.name.process_data(exmple['name'])
         form.email.process_data(exmple['email'])
 
-        return render_template('main/form.html', exmple=exmple,
+        return render_template('edit.html', form=form, exmple=exmple,
                                 title=title, description=description)
 
     elif request.method == 'POST':
@@ -120,16 +119,14 @@ def exmple_edit(exmple_id):
         finally:
             db.session.close()
 
-        return redirect(url_for('show_exmple', exmple_id=exmple_id))
+        return redirect(url_for('exmple_bp.show_exmple', exmple_id=exmple_id))
 
-
-
-
-#  Delete exmple
 #  ----------------------------------------------------------------
-@app.route('/exmples/<int:exmple_id', method=['DELETE'])
+#  Delete exmple
+
+@exmple_bp.route('/exmples/<int:exmple_id>/delete', methods=['GET'])
 def exmple_delete(exmple_id):
-    exmple = Exmple.query.filter(Exmple.id == exmple_id).first()
+    exmple = Exmple.query.filter(Exmple.id == exmple_id).first_or_none()
     name = exmple.name
 
     try:
@@ -144,44 +141,5 @@ def exmple_delete(exmple_id):
     finally:
         db.session.close()
 
-    return redirect('/exmples')
+    return redirect(url_for('exmple_bp.exmples'))
 
-
-# ----------------------------------------------------------------- 
-# Error handlers
-#  ----------------------------------------------------------------
-@app.errorhandler(400)
-def bad_request_error(error):
-    title = "400 Error"
-    description = "Bad request"
-    return render_template('main/error.html', title=title,
-                            description=description), 400
-@app.errorhandler(404)
-def not_found_error(error):
-    title = "404 Error"
-    description = "Resource not found"
-    return render_template('main/error.html', title=title,
-                            description=description), 404
-@app.errorhandler(422)
-def unprocessable(error):
-    title = "422 Error"
-    description = "Unprocessable"
-    return render_template('main/error.html', title=title,
-                            description=description), 422
-@app.errorhandler(500)
-def server_error(error):
-    title = "500 Error"
-    description = "Internal server error"
-    return render_template('main/error.html', title=title,
-                            description=description), 500
-
-# TODO: finish AuthError
-
-# @app.errorhandler(AuthError)
-# def handle_auth_error(ex):
-#     message = ex.error['description']
-#     response = jsonify(ex.error)
-#     response.status_code = ex.status_code
-#     print('AUTH ERROR: ', response.get_data(as_text=True))
-#     flash(f'{message} Please login.')
-#     return redirect('/')

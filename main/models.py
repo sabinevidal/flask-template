@@ -6,14 +6,14 @@ from sqlalchemy import Column, Integer, String, ForeignKey, CheckConstraint, Boo
 from sqlalchemy.orm import relationship, backref
 from config import Config
 
-class Example(db.Model):
-    __tablename__ = 'examples'
+class Exmple(db.Model):
+    __tablename__ = 'exmples'
     id = Column(Integer, primary_key=True)
     name = Column(String, unique=False, nullable=True)
     email = Column(String, unique=True, nullable=False)
 
     def __repr__(self):
-        return '<Example {}>'.format(self.name)
+        return '<Exmple {}>'.format(self.name)
 
     def insert(self):
         db.session.add(self)

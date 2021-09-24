@@ -8,14 +8,14 @@
 
 {% block header %}
     <ol class="breadcrumb">
-        <li class="active">Edit Example</li>
+        <li class="active">Edit Exmple</li>
     </ol>
 {% endblock %}
 
 {% block content %}
     <form method="POST" action="{{ request.url }}">
         {{ form.hidden_tag() }}
-        <h3 class="form-heading">Edit example <em>{{ example.name }}</em></h3>
+        <h3 class="form-heading">Edit exmple <em>{{ exmple.name }}</em></h3>
         <dl>
             {{ render_field(form.name) }}
             {{ render_field(form.email) }}

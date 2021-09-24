@@ -3,7 +3,7 @@ module.exports = {
   purge: [
     'main/templates/**/*.html',
     'main/home/templates/*.html',
-    'main/example/templates/*.html',
+    'main/exmple/templates/*.html',
     // './src/**/*.js',
   ],
   darkMode: false, // or 'media' or 'class'
