@@ -1,14 +1,10 @@
 {% extends "layout.html" %}
 
-<!-- {% block pagestyles %}
-    {% assets "example_style_bundle" %}
-    <link href="{{ ASSET_URL }}" rel="stylesheet" type="text/css">
-    {% endassets %}
-{% endblock %} -->
-
 {% block content %}
     <div class="container">
         <h1>{{title}}</h1>
         <p>{{description}}</p>
+        <h3>{{ example.name }}</h3>
+        <h4>{{ example.email }}</h4>
     </div>
 {% endblock %}

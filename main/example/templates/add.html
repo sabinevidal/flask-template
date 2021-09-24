@@ -8,17 +8,17 @@
 
 {% block header %}
     <ol class="breadcrumb">
-        <li><a href="{{ url_for('.list') }}">Admin</a></li>
-        <li><a href="{{ url_for('.list') }}">Users</a></li>
         <li class="active">Add Example</li>
     </ol>
 {% endblock %}
 
-{% block body %}
+{% block content %}
     <form method="POST" action="{{ request.url }}">
+        {{ form.hidden_tag() }}
         <h3 class="form-heading">Add example</h3>
         <dl>
-            {{ render_field(form) }}
+            {{ render_field(form.name) }}
+            {{ render_field(form.email) }}
         </dl>
         <input type="submit" name="submit" value="Submit" class="btn btn-primary btn-lg btn-block">
     </form>

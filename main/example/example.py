@@ -28,7 +28,7 @@ def examples():
     title = "Examples"
     description = "Let's begin..."
     examples = Example.query.all()
-    return render_template('main/index.html', examples=examples,
+    return render_template('index.html', examples=examples,
                             title=title, description=description)
 
 @example_bp.route('/examples/<int:example_id>', methods=['GET'])
@@ -42,21 +42,21 @@ def show_example(example_id):
         "name": example.name,
         "email": example.email
     }
-    return render_template('main/single.html', example=details,
+    return render_template('single.html', example=details,
                             title=title, description=description)
 
 #  ----------------------------------------------------------------
 #  Create example
 
-@example_bp.route('/form', methods=['GET'])
+@example_bp.route('/examples/form', methods=['GET'])
 def example_form():
     title = "Create Example"
     description = "Let's begin..."
     form = ExampleForm()
-    return render_template('main/form.html', form=form,
+    return render_template('add.html', form=form,
                             title=title, description=description)
 
-@example_bp.route('/form', methods=['POST'])
+@example_bp.route('/examples/form', methods=['POST'])
 def example_create():
     form = ExampleForm()
     name = form.name.data
@@ -75,7 +75,7 @@ def example_create():
         print(e)
     finally:
         db.session.close()
-    return redirect('main/index.html')
+    return redirect(url_for('example_bp.examples'))
 
 #  ----------------------------------------------------------------
 #  Edit example
@@ -101,7 +101,7 @@ def example_edit(example_id):
         form.name.process_data(example['name'])
         form.email.process_data(example['email'])
 
-        return render_template('main/form.html', example=example,
+        return render_template('edit.html', form=form, example=example,
                                 title=title, description=description)
 
     elif request.method == 'POST':
@@ -119,14 +119,14 @@ def example_edit(example_id):
         finally:
             db.session.close()
 
-        return redirect(url_for('show_example', example_id=example_id))
+        return redirect(url_for('example_bp.show_example', example_id=example_id))
 
 #  ----------------------------------------------------------------
 #  Delete example
 
-@example_bp.route('/examples/<int:example_id>', methods=['DELETE'])
+@example_bp.route('/examples/<int:example_id>/delete', methods=['GET'])
 def example_delete(example_id):
-    example = Example.query.filter(Example.id == example_id).first()
+    example = Example.query.filter(Example.id == example_id).first_or_none()
     name = example.name
 
     try:
@@ -141,5 +141,5 @@ def example_delete(example_id):
     finally:
         db.session.close()
 
-    return redirect('/examples')
+    return redirect(url_for('example_bp.examples'))
 

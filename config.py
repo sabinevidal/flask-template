@@ -34,3 +34,8 @@ class Config:
     AUTH0_CLIENT_SECRET = environ.get("AUTH0_CLIENT_SECRET")
     AUTH0_CALLBACK_URL = environ.get("AUTH0_CALLBACK_URL")
     AUTH0_AUDIENCE = environ.get("AUTH0_AUDIENCE")
+
+    """Flask configuration."""
+
+    ASSETS_DEBUG = False
+    ASSETS_AUTO_BUILD = True

@@ -9,8 +9,8 @@ def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=False)
     app.config.from_object("config.Config")
-    assets = Environment()
-    assets.init_app(app)
+    # assets = Environment()
+    # assets.init_app(app)
 
     db.init_app(app)
 
@@ -28,7 +28,7 @@ def create_app(test_config=None):
         app.register_blueprint(home.home_bp)
 
         # Compile static assets
-        compile_static_assets(assets)  # Execute logic
+        # compile_static_assets(assets)  # Execute logic
 
         db.create_all()
 

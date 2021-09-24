@@ -1,5 +1,5 @@
 """Data models."""
-from . import db
+from main.__init__ import db
 
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, Integer, String, ForeignKey, CheckConstraint, Boolean

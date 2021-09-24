@@ -24,6 +24,5 @@ def home():
     return render_template(
         'home.html',
         title='Welcome!',
-        description="Let's begin...",
-        template='home-template'
+        description="Let's begin..."
     )
